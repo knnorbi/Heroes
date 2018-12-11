@@ -16,13 +16,36 @@ namespace Heroes
         {
             get
             {
-
+                return NumberOfEvils > 0 && NumberOfGoodGuys > 0;
             }
         }
 
-        public int NumberOfEvils { get { } }
+        public int NumberOfEvils { 
+            get
+            {
+                int n = 0;
+                foreach (var hero in heroes)
+                {
+                    if (hero.Evil)
+                        n++;
+                }
+                return n;
+            }
+        }
 
-        public int NumberOfGoodGuys { get {  } }
+        public int NumberOfGoodGuys 
+        { 
+            get 
+            {
+                int n = 0;
+                foreach (var hero in heroes)
+                {
+                    if (!hero.Evil)
+                        n++;
+                }
+                return n;
+            } 
+        }
 
         public Game(string path)
         {
@@ -45,22 +68,30 @@ namespace Heroes
 
         public void RandomAttack()
         {
-            int aIdx = random.Next(0, heroes.Count);
-            int vIdx = random.Next(0, heroes.Count);
-            
-            Console.WriteLine("{0} megtámadja {1}-t.", heroes[aIdx].Name, heroes[vIdx].Name);
-            Console.WriteLine(heroes[aIdx]);
-            Console.WriteLine(heroes[vIdx]);
+            try
+            {
+                int aIdx = random.Next(0, heroes.Count);
+                int vIdx = random.Next(0, heroes.Count);
 
-            bool success = heroes[vIdx].Attack(heroes[aIdx]);
+                Console.WriteLine("{0} megtámadja {1}-t.", heroes[aIdx].Name, heroes[vIdx].Name);
+                Console.WriteLine(heroes[aIdx]);
+                Console.WriteLine(heroes[vIdx]);
 
-            Console.WriteLine("{0} {1}halott.", heroes[vIdx].Name, success ? "" : "nem ");
-            Console.WriteLine(heroes[aIdx]);
-            Console.WriteLine(heroes[vIdx]);
-            Console.WriteLine("---------------------");
+                bool success = heroes[vIdx].Attack(heroes[aIdx]);
 
-            if (success)
-                heroes.RemoveAt(vIdx);
+                Console.WriteLine("{0} {1}halott.", heroes[vIdx].Name, success ? "" : "nem ");
+                Console.WriteLine(heroes[aIdx]);
+                Console.WriteLine(heroes[vIdx]);
+                Console.WriteLine("---------------------");
+
+                if (success)
+                    heroes.RemoveAt(vIdx);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("HIBA: " + e.Message);
+                Console.WriteLine("---------------------");
+            }
         }
 
         public void AddHero(Hero hero)
@@ -69,6 +100,16 @@ namespace Heroes
 
             //int elemek = heroes.Count;
             //Hero elso = heroes[0];
+        }
+
+        public void WhoWon()
+        {
+            if (OnGoing) return;
+            Console.WriteLine("A {0} nyertek:", NumberOfEvils > NumberOfGoodGuys? "rosszak": "jók");
+            foreach (var hero in heroes)
+            {
+                Console.WriteLine(hero.Name);
+            }
         }
     }
 }

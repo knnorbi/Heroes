@@ -12,11 +12,11 @@ namespace Heroes
         {
             Game game = new Game("Heroes.csv");
 
-            for (int i = 0; i < 10; i++)
+            while(game.OnGoing)
             {
                 game.RandomAttack();
             }
-
+            game.WhoWon();
             Console.ReadKey();
         }
     }

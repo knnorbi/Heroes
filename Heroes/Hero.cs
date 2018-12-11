@@ -24,9 +24,18 @@ namespace Heroes
 
         public bool Attack(Hero attacker)
         {
-            if (this == attacker) { return false; }
-            if (!IsAlive || !attacker.IsAlive) { return false; }
-            if (Evil == attacker.Evil) { return false; }
+            if (this == attacker)
+            {
+                throw new Exception("Saját magát támadta meg!");
+            }
+            if (!IsAlive || !attacker.IsAlive) 
+            {
+                throw new Exception("Valaki már halott."); 
+            }
+            if (Evil == attacker.Evil) 
+            {
+                throw new Exception("Ilyet nem szép dolog csinálni!"); 
+            }
 
             Health -= attacker.Strength;
             return !IsAlive;
