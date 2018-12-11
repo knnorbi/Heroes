@@ -10,7 +10,7 @@ namespace Heroes
     class Game
     {
         List<Hero> heroes = new List<Hero>();
-        Random random = new Random(1);
+        Random random = new Random();
 
         public bool OnGoing
         {
